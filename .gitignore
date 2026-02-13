@@ -1,0 +1,29 @@
+# Credentials and config
+config.yaml
+
+# Data directory
+data/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.py[cod]
+*$py.class
+
+# Logs
+logs/
+*.log
+
+# Virtual Environment
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store

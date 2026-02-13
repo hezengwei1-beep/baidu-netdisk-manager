@@ -1,0 +1,353 @@
+app_key: your_app_key_here
+auth:
+  access_token: your_access_token_here
+  expires_at: 0
+  refresh_token: your_refresh_token_here
+clean:
+  duplicate_keep: keep_shortest_path
+  exclude_dirs:
+  - /apps
+  - /我的资源
+  expire_days: 365
+  large_file_threshold_mb: 500
+organize:
+  date_rules:
+  - extensions:
+    - .jpg
+    - .jpeg
+    - .png
+    - .heic
+    - .mov
+    - .mp4
+    source_dir: /来自：iPhone
+    target_pattern: /照片/{year}/{month}
+  - extensions:
+    - .jpg
+    - .jpeg
+    - .png
+    - .heic
+    - .mov
+    - .mp4
+    source_dir: /相机胶卷
+    target_pattern: /照片/{year}/{month}
+  enabled: true
+  exclude_dirs:
+  - /apps
+  - /我的资源
+  - /.recycle
+  keyword_rules:
+  - keyword: 合同
+    target: /工作/合同
+  - keyword: 发票
+    target: /工作/发票
+  - keyword: 简历
+    target: /工作/简历
+  - keyword: 报告
+    target: /工作/报告
+  source_dir: /
+  type_rules:
+    压缩包:
+      extensions:
+      - .zip
+      - .rar
+      - .7z
+      - .tar
+      - .gz
+      - .bz2
+      - .xz
+      target: /压缩包
+    图片:
+      extensions:
+      - .jpg
+      - .jpeg
+      - .png
+      - .gif
+      - .bmp
+      - .svg
+      - .webp
+      - .tiff
+      - .raw
+      - .heic
+      target: /图片
+    安装包:
+      extensions:
+      - .exe
+      - .msi
+      - .dmg
+      - .pkg
+      - .deb
+      - .rpm
+      - .apk
+      - .ipa
+      target: /安装包
+    文档:
+      extensions:
+      - .doc
+      - .docx
+      - .pdf
+      - .txt
+      - .md
+      - .xlsx
+      - .xls
+      - .pptx
+      - .ppt
+      - .csv
+      - .rtf
+      - .odt
+      target: /文档
+    视频:
+      extensions:
+      - .mp4
+      - .avi
+      - .mkv
+      - .mov
+      - .wmv
+      - .flv
+      - .rmvb
+      - .rm
+      - .3gp
+      - .ts
+      target: /视频
+    音乐:
+      extensions:
+      - .mp3
+      - .wav
+      - .flac
+      - .aac
+      - .ogg
+      - .wma
+      - .ape
+      - .m4a
+      target: /音乐
+scan:
+  exclude_dirs:
+  - /.recycle
+  max_depth: 0
+  root_dir: /
+secret_key: your_secret_key_here
+sync:
+  exclude_patterns:
+  - '*.tmp'
+  - '*.DS_Store'
+  - Thumbs.db
+  local_dir: ~/baidu-backup
+  max_files: 1000
+  remote_dir: /同步备份
+
+# ===== 知识管理系统配置 =====
+
+taxonomy:
+  categories:
+  - name: 健康运动
+    keywords: [健身, 运动, 锻炼, 体能, fitness]
+    children:
+    - name: 健身训练
+      keywords: [健身, 力量, HIIT, 帕梅拉, 体雕, 增肌, 撸铁, workout, 周六野]
+    - name: 瑜伽
+      keywords: [瑜伽, 流瑜伽, 空中瑜伽, TTC, yoga, 阴瑜伽]
+    - name: 冥想正念
+      keywords: [冥想, 呼吸, 正念, 冥想, meditation]
+    - name: 减脂塑形
+      keywords: [减脂, 塑形, 营养, 减肥, 饮食, 热量]
+    - name: 体态康复
+      keywords: [体态, 矫正, 肩颈, 核心, 康复, 拉伸]
+    - name: 养生保健
+      keywords: [养生, 保健, 中医, 食疗]
+    - name: 心态成长
+      keywords: [认识自我, 情绪管理, 心态, 老景, 成长]
+
+  - name: 语言学习
+    keywords: [英语, 英文, English, 语言]
+    children:
+    - name: 名师课程
+      keywords: [杨亮, 艾力, 付志宽, 刘彬, 赖世雄, 名师]
+    - name: 词汇语法
+      keywords: [单词, 词汇, 语法, 词根, vocabulary, grammar]
+    - name: 口语听力
+      keywords: [口语, 听力, 对话, 发音, speaking, listening]
+    - name: 考试备考
+      keywords: [专升本, 四六级, 考研, 雅思, 托福, CET]
+    - name: 少儿英语
+      keywords: [Yoyo, 魔法树屋, 少儿, 启蒙, 儿童英语]
+
+  - name: 摄影影像
+    keywords: [摄影, 拍照, 相机, 影像]
+    children:
+    - name: 摄影技巧
+      keywords: [人像, 布光, 摆姿, 风光, 街拍, 构图, 拍摄]
+    - name: 后期处理
+      keywords: [PS, LR, Lightroom, Photoshop, 调色, 修图, 后期]
+
+  - name: 商业财经
+    keywords: [商业, 财经, 经济, 赚钱]
+    children:
+    - name: 理财投资
+      keywords: [理财, 基金, 股票, 资产配置, 投资, 财务自由]
+    - name: 职场管理
+      keywords: [管理, 领导力, 张丽俊, 职场, MBA, 团队]
+    - name: 创业副业
+      keywords: [副业, IP, 网赚, 创业, 自媒体, 短视频]
+
+  - name: 人文社科
+    keywords: [人文, 社科, 文化, 学术]
+    children:
+    - name: 国学经典
+      keywords: [论语, 道德经, 师地论, 国学, 经典, 易经, 儒学]
+    - name: 心理学
+      keywords: [心理, 詹唐宁, 玛雅, 潜能, 心理学, 认知]
+    - name: 历史
+      keywords: [百家讲坛, 中国史, 历史, 通史, 朝代]
+    - name: 教育教辅
+      keywords: [K12, 试卷, 教辅, 小学, 初中, 高中, 教育]
+    - name: 国际视野
+      keywords: [沈逸, 温铁军, 金灿荣, 国际, 时政, 地缘]
+
+  - name: 通用技能
+    keywords: [技能, 学习, 效率]
+    children:
+    - name: 编程技术
+      keywords: [Python, AI, 编程, 程序, 代码, JavaScript, 数据]
+    - name: 办公效率
+      keywords: [Office, Excel, PPT, Word, 效率, 工具]
+    - name: 阅读写作
+      keywords: [阅读, 写作, 冯唐, 读书, 速读, 笔记]
+    - name: 沟通演讲
+      keywords: [演讲, 沟通, 表达, 口才, TED]
+    - name: 思维方法
+      keywords: [思维, 知识管理, 思维导图, 模型, 方法论]
+    - name: 时间管理
+      keywords: [目标, 行动, GTD, 时间管理, 习惯, 自律]
+
+  - name: 学习平台
+    keywords: [得到, 湛卢, 平台, 专栏]
+    children:
+    - name: 得到
+      keywords: [得到, dedao, 罗振宇, 专栏, 大师课, 精品课, 训练营]
+    - name: 湛卢阅读
+      keywords: [湛卢, 阅读]
+
+  - name: 个人空间
+    keywords: []
+    children:
+    - name: 照片-单反
+      keywords: [RAW, CR3, DNG, 单反, 相机照片]
+    - name: 照片-手机
+      keywords: [iPhone, iPad, 手机照片, HEIC]
+    - name: 音乐
+      keywords: [HibyMusic, 音乐, FLAC, 无损]
+    - name: 文档
+      keywords: [合同, 发票, 简历, 报告, 证件]
+
+  - name: 系统数据
+    frozen: true
+    keywords: [apps, SyncY]
+    children:
+    - name: apps
+      frozen: true
+      keywords: [apps]
+
+  - name: 待归类
+    keywords: []
+
+classifier:
+  # 目录精确映射（source -> target）
+  directory_mappings:
+    # 健康运动
+    /A身体库/001健身: /健康运动/健身训练
+    /A身体库/002瑜伽: /健康运动/瑜伽
+    /A身体库/001瑜伽: /健康运动/瑜伽
+    /A身体库/003冥想: /健康运动/冥想正念
+    /A身体库/004减脂塑形: /健康运动/减脂塑形
+    /A身体库/001减脂: /健康运动/减脂塑形
+    /A身体库/002男女: /健康运动/健身训练
+    /A身体库/001腰腹核心: /健康运动/体态康复
+    /A身体库/体态矫正: /健康运动/体态康复
+    /A身体库/养生保健: /健康运动/养生保健
+    /A身体库/心态: /健康运动/心态成长
+    /A身体库/03认识自我: /健康运动/心态成长
+    /A身体库/244 麦与粗人合集: /健康运动/健身训练
+    /待整理/01 2021 瑜伽、健身: /健康运动
+    /待整理/2021健身: /健康运动/健身训练
+    /待整理/热门平台2区等多个文件: /健康运动/健身训练
+    # 语言学习
+    /A技能库/04英语 2.8T: /语言学习
+    /A技能库/英语: /语言学习
+    /A技能库/杨亮: /语言学习/名师课程
+    /A技能库/艾力: /语言学习/名师课程
+    # 摄影
+    /A技能库/摄影: /摄影影像/摄影技巧
+    /A技能库/摄影技巧: /摄影影像/摄影技巧
+    /A技能库/摄影后期: /摄影影像/后期处理
+    # 商业财经
+    /A技能库/理财: /商业财经/理财投资
+    /A技能库/01理财｜财经: /商业财经/理财投资
+    /A技能库/管理: /商业财经/职场管理
+    /A技能库/副业: /商业财经/创业副业
+    /A技能库/网赚: /商业财经/创业副业
+    # 人文社科
+    /A学科库/国学: /人文社科/国学经典
+    /A学科库/心理: /人文社科/心理学
+    /A学科库/历史: /人文社科/历史
+    /A学科库/法学: /人文社科
+    /A学科库/K12: /人文社科/教育教辅
+    /A学科库/教辅: /人文社科/教育教辅
+    /A学科库/电子教辅 试卷: /人文社科/教育教辅
+    /A学科库/大师学习区（点这里）等多个文件: /人文社科
+    /A学科库/国际: /人文社科/国际视野
+    /B视野库: /人文社科/国际视野
+    # 通用技能
+    /A技能库/编程: /通用技能/编程技术
+    /A技能库/AI: /通用技能/编程技术
+    /A技能库/Python: /通用技能/编程技术
+    /A技能库/办公: /通用技能/办公效率
+    /A技能库/Office: /通用技能/办公效率
+    /A技能库/阅读: /通用技能/阅读写作
+    /A技能库/写作: /通用技能/阅读写作
+    /A技能库/02知识｜信息: /通用技能/思维方法
+    /A技能库/演讲: /通用技能/沟通演讲
+    /A技能库/思维: /通用技能/思维方法
+    /A技能库/时间管理: /通用技能/时间管理
+    /- 学习暂存/冯唐合集: /通用技能/阅读写作
+    # 学习平台
+    /- 学习暂存/dedao: /学习平台/得到
+    /- 学习暂存/得到: /学习平台/得到
+    /- 学习暂存/湛卢: /学习平台/湛卢阅读
+    /17、湛卢阅读: /学习平台/湛卢阅读
+    /- 学习暂存/外购: /学习平台
+    /- 学习暂存/DCIG 晋级三阶 跃升时刻：保送成功的生活体系检测清单-【71节】: /学习平台
+    /- 学习暂存/【DCIG进阶四阶】DCIG進階四階-每日智匯AI生產力倍增秘籍: /学习平台
+    # 个人空间
+    /来自：iPhone: /个人空间/照片-手机
+    /来自：iPad: /个人空间/照片-手机
+    /相机胶卷: /个人空间/照片-手机
+    /照片存档: /个人空间/照片-单反
+    # 待整理中的学习成长内容
+    /待整理/20学习成长: /通用技能
+    /待整理/10工作业务: /商业财经/职场管理
+    /待整理/50兴趣休闲: /待归类
+    # 系统数据
+    /apps: /系统数据/apps
+
+  # 高置信度匹配的最低阈值
+  high_confidence_threshold: 0.9
+  # 中置信度阈值
+  medium_confidence_threshold: 0.5
+
+migration:
+  # 批次大小（百度 API 单次移动上限）
+  batch_size: 50
+  # 冻结目录（不参与迁移）
+  frozen_dirs:
+  - /apps
+  - /系统数据
+  - /.recycle
+  - /我的资源
+
+dedup:
+  # 保留策略
+  keep_strategy: keep_correct_location
+  # 排除目录
+  exclude_dirs:
+  - /apps
+  - /.recycle
+  - /我的资源
