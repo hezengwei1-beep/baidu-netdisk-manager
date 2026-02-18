@@ -261,11 +261,17 @@ def classify(detail):
 @click.option("--execute", "phase", type=int, default=None, help="执行指定阶段 (1-4)")
 @click.option("--dry-run", is_flag=True, help="试运行")
 @click.option("--rollback", "rollback_id", default=None, help="回滚指定批次")
-def migrate(plan, phase, dry_run, rollback_id):
+@click.option("--rollback-all", is_flag=True, help="回滚所有迁移，恢复到分类前的状态")
+def migrate(plan, phase, dry_run, rollback_id, rollback_all):
     """知识库迁移"""
     config = load_config()
 
-    from migration import generate_plan, execute_phase, rollback as do_rollback
+    from migration import generate_plan, execute_phase, rollback as do_rollback, rollback_all as do_rollback_all
+
+    if rollback_all:
+        api = get_api(config)
+        do_rollback_all(api, dry_run=dry_run)
+        return
 
     if rollback_id:
         api = get_api(config)
@@ -281,7 +287,7 @@ def migrate(plan, phase, dry_run, rollback_id):
         execute_phase(api, config, phase, dry_run=dry_run)
         return
 
-    console.print("[red]请指定操作: --plan / --execute <阶段> / --rollback <批次ID>[/red]")
+    console.print("[red]请指定操作: --plan / --execute <阶段> / --rollback <批次ID> / --rollback-all[/red]")
 
 
 @cli.command()

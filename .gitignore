@@ -4,6 +4,7 @@ config.yaml
 
 # Data directory
 data/
+*.db
 
 # Python
 __pycache__/

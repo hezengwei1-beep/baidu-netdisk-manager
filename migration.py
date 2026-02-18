@@ -346,6 +346,94 @@ def rollback(api: BaiduPanAPI, batch_id: str):
     console.print(f"\n[bold]回滚完成：{success}/{len(rows)}[/bold]")
 
 
+def rollback_all(api: BaiduPanAPI, dry_run: bool = False):
+    """全量回滚：将所有已迁移的文件恢复到原始位置"""
+    from db import get_connection, update_classification_status
+    conn = get_connection()
+
+    # 按时间倒序取出所有成功的移动记录（后执行的先回滚）
+    rows = conn.execute(
+        "SELECT * FROM migration_log WHERE status='success' AND phase IN (2,3) ORDER BY executed_at DESC"
+    ).fetchall()
+    conn.close()
+
+    if not rows:
+        console.print("[yellow]没有可回滚的迁移记录[/yellow]")
+        return
+
+    # 按批次分组统计
+    batches = {}
+    for r in rows:
+        d = dict(r)
+        bid = d["batch_id"]
+        if bid not in batches:
+            batches[bid] = []
+        batches[bid].append(d)
+
+    console.print(f"\n[bold]全量回滚概览[/bold]")
+    console.print(f"  共 {len(rows)} 个操作，涉及 {len(batches)} 个批次\n")
+
+    table = Table(title="回滚计划")
+    table.add_column("批次 ID", style="cyan")
+    table.add_column("操作数", justify="right")
+    table.add_column("示例", style="dim", max_width=60)
+
+    for bid, ops in batches.items():
+        example = f"{ops[0]['target_path']} → {ops[0]['source_path']}"
+        table.add_row(bid, str(len(ops)), _truncate(example, 60))
+    console.print(table)
+
+    if dry_run:
+        console.print(f"\n[bold]详细回滚列表：[/bold]")
+        for r in rows:
+            d = dict(r)
+            console.print(f"  [dim]{d['target_path']}[/dim] → [green]{d['source_path']}[/green]")
+        console.print(f"\n[yellow]试运行模式，未实际执行[/yellow]")
+        return
+
+    if not Confirm.ask(f"确认回滚全部 {len(rows)} 个操作？此操作会把文件移回原始位置"):
+        console.print("[yellow]已取消[/yellow]")
+        return
+
+    rollback_batch_id = "rb-" + str(uuid.uuid4())[:8]
+    success = 0
+    failed = 0
+
+    for r in rows:
+        d = dict(r)
+        target = d["target_path"]
+        source = d["source_path"]
+        source_dir = source.rsplit("/", 1)[0] or "/"
+        dir_name = source.rsplit("/", 1)[-1]
+
+        try:
+            api.move([{"path": target, "dest": source_dir, "newname": dir_name}])
+            log_migration(rollback_batch_id, 0, target, source, "rollback")
+            success += 1
+            console.print(f"  [green]✓[/green] {_truncate(target, 45)} → {source}")
+        except Exception as e:
+            err_msg = str(e)
+            # 如果目标已不存在（可能已手动移回），标记跳过
+            if "31066" in err_msg or "not exist" in err_msg.lower():
+                console.print(f"  [yellow]⊘ 跳过（已不存在）: {target}[/yellow]")
+                log_migration(rollback_batch_id, 0, target, source, "skipped", err_msg)
+            else:
+                log_migration(rollback_batch_id, 0, target, source, "failed", err_msg)
+                failed += 1
+                console.print(f"  [red]✗ {target}: {e}[/red]")
+
+    # 回滚成功后，把分类状态重置为 pending
+    if success > 0:
+        conn = get_connection()
+        conn.execute("UPDATE classifications SET status='pending' WHERE status='migrated'")
+        conn.commit()
+        conn.close()
+
+    console.print(f"\n[bold green]全量回滚完成：成功 {success}，失败 {failed}，共 {len(rows)} 个[/bold green]")
+    if success > 0:
+        console.print("[yellow]提示：回滚完成后建议运行 scan 更新索引[/yellow]")
+
+
 def _build_move_request(source_path: str, target_path: str) -> dict:
     """构建正确的百度 API 移动请求。
 
