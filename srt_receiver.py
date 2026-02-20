@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""临时 HTTP 服务器：接收浏览器 POST 的 SRT 数据并保存到本地"""
+"""DEPRECATED: 此文件已被 auto_extract.py 内嵌的接收服务器取代。
+请使用: python auto_extract.py run --path /目录
+
+临时 HTTP 服务器：接收浏览器 POST 的 SRT 数据并保存到本地"""
 
 import json
 import os
