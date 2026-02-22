@@ -23,6 +23,8 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
+from state_store import load_json_state, save_json_state
+
 DATA_DIR = Path(__file__).parent / "data"
 SUBTITLES_DIR = DATA_DIR / "subtitles"
 PROGRESS_FILE = DATA_DIR / "audio_transcript_progress.json"
@@ -31,14 +33,11 @@ PROGRESS_FILE = DATA_DIR / "audio_transcript_progress.json"
 # ── 进度管理（复用现有格式） ──
 
 def load_progress() -> dict:
-    if PROGRESS_FILE.exists():
-        return json.loads(PROGRESS_FILE.read_text())
-    return {"completed": {}, "failed": {}, "quota_exceeded": []}
+    return load_json_state(PROGRESS_FILE, {"completed": {}, "failed": {}, "quota_exceeded": []})
 
 
 def save_progress(progress: dict):
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-    PROGRESS_FILE.write_text(json.dumps(progress, ensure_ascii=False, indent=2))
+    save_json_state(PROGRESS_FILE, progress)
 
 
 # ── SRT 工具函数 ──

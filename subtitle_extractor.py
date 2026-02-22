@@ -31,6 +31,7 @@ from rich.progress import Progress, SpinnerColumn, BarColumn, TextColumn
 from rich.table import Table
 
 from db import get_connection
+from state_store import load_json_state, save_json_state
 
 console = Console()
 
@@ -57,15 +58,15 @@ def srt_to_text(srt_content: str) -> str:
 
 def load_progress() -> dict:
     """加载提取进度"""
-    if PROGRESS_FILE.exists():
-        return json.loads(PROGRESS_FILE.read_text())
-    return {"completed": {}, "failed": {}, "not_transcoded": [], "no_subtitle": []}
+    return load_json_state(
+        PROGRESS_FILE,
+        {"completed": {}, "failed": {}, "not_transcoded": [], "no_subtitle": []},
+    )
 
 
 def save_progress(progress: dict):
     """保存提取进度"""
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-    PROGRESS_FILE.write_text(json.dumps(progress, ensure_ascii=False, indent=2))
+    save_json_state(PROGRESS_FILE, progress)
 
 
 def get_media_files(path_filter: str = None, ext_filter: set = None) -> list[dict]:
